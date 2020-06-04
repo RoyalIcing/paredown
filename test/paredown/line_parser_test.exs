@@ -75,5 +75,10 @@ defmodule Paredown.LineParserTest do
       assert Subject.to_html("`code snippet at start` and `middle` and `end`") ==
                raw("<code>code snippet at start</code> and <code>middle</code> and <code>end</code>")
     end
+
+    test "it escapes html characters" do
+      assert Subject.to_html("<a> & <b>") ==
+               raw("&lt;a&gt; &amp; &lt;b&gt;")
+    end
   end
 end

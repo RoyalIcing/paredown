@@ -146,6 +146,23 @@ defmodule Paredown.LineParser do
     |> next(rest)
   end
 
+  # HTML characters
+
+  defp next(state = %__MODULE__{}, <<"<"::utf8>> <> rest) do
+    %__MODULE__{state | html: ["&lt;" | state.html]}
+    |> next(rest)
+  end
+
+  defp next(state = %__MODULE__{}, <<">"::utf8>> <> rest) do
+    %__MODULE__{state | html: ["&gt;" | state.html]}
+    |> next(rest)
+  end
+
+  defp next(state = %__MODULE__{}, <<"&"::utf8>> <> rest) do
+    %__MODULE__{state | html: ["&amp;" | state.html]}
+    |> next(rest)
+  end
+
   # Normal text
 
   defp next(state = %__MODULE__{}, <<char::utf8>> <> rest) do
