@@ -61,7 +61,19 @@ defmodule Paredown.LineParserTest do
                  "another one" => "https://example.org/another"
                }
              ) ==
-               raw("text with <a href=\"https://example.org/somewhere\">link somewhere</a> interesting and <a href=\"https://example.org/another\">another one</a> to visit")
+               raw(
+                 "text with <a href=\"https://example.org/somewhere\">link somewhere</a> interesting and <a href=\"https://example.org/another\">another one</a> to visit"
+               )
+    end
+
+    test "inline code snippet" do
+      assert Subject.to_html("text with `code snippet` in the middle") ==
+               raw("text with <code>code snippet</code> in the middle")
+    end
+
+    test "multiple inline code snippet" do
+      assert Subject.to_html("`code snippet at start` and `middle` and `end`") ==
+               raw("<code>code snippet at start</code> and <code>middle</code> and <code>end</code>")
     end
   end
 end

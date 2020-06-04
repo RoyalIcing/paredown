@@ -1,5 +1,5 @@
 defmodule Paredown.LineParser do
-  defstruct html: [], italics: nil, bold: nil, link: nil, link_references: %{}
+  defstruct html: [], italics: nil, bold: nil, link: nil, link_references: %{}, code: nil
 
   @doc """
   Hello world.
@@ -134,10 +134,26 @@ defmodule Paredown.LineParser do
     |> next(rest)
   end
 
+  # Code snippet
+
+  defp next(state = %__MODULE__{code: nil}, <<"`"::utf8>> <> rest) do
+    %__MODULE__{state | html: ["<code>" | state.html], code: "`"}
+    |> next(rest)
+  end
+
+  defp next(state = %__MODULE__{code: "`"}, <<"`"::utf8>> <> rest) do
+    %__MODULE__{state | html: ["</code>" | state.html], code: nil}
+    |> next(rest)
+  end
+
+  # Normal text
+
   defp next(state = %__MODULE__{}, <<char::utf8>> <> rest) do
     %__MODULE__{state | html: [<<char::utf8>> | state.html]}
     |> next(rest)
   end
+
+  # End
 
   defp next(state = %__MODULE__{}, "") do
     html = state.html |> Enum.reverse() |> Enum.join()
