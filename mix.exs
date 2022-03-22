@@ -25,7 +25,7 @@ defmodule Paredown.MixProject do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:phoenix_html, "~> 2.13"}
+      {:phoenix_html, "~> 2.13 or ~> 3.0"}
     ]
   end
 
