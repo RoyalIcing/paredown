@@ -4,7 +4,7 @@ defmodule Paredown.MixProject do
   def project do
     [
       app: :paredown,
-      version: "0.1.3",
+      version: "0.1.4",
       elixir: "~> 1.10",
       description: "Simple subset of Markdown for writing HTML.",
       source_url: github_url(),
